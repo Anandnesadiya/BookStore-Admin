@@ -1,0 +1,30 @@
+.totalorderpricediv {
+    margin: auto;
+    margin-top: 50px;
+    height: 100px;
+    width: 300px;
+    border: solid;
+    border-width: 1px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.totalorderpriceparagraph {
+    margin-top: 0.5rem;
+}
+
+.maindiv {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+}
+
+#chartdiv{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    place-items: center;
+    margin: 30px;
+    width: 1476px;
+    height: 300px;
+}

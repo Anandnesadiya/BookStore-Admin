@@ -1,0 +1,24 @@
+.userdetailtable {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .tablehead, .tablecolumn {
+    text-align: left;
+    padding: 8px;
+  }
+  
+  .tablerow:nth-child(even){background-color: #f2f2f2}
+  
+  .tablehead {
+    background-color: rgb(51, 49, 62);
+    color: white;
+  }
+
+  #userdetailsh1{
+    
+    text-align: center;
+  }
+
+  
