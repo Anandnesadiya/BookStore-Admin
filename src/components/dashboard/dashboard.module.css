@@ -28,3 +28,53 @@
     width: 1476px;
     height: 300px;
 }
+
+.filterdiv{
+    display: grid;
+    grid-template-rows: 33% 33% 34%;
+    width: 500px;
+    padding: 10px;
+}
+
+.dateInput{
+    padding: 10px;
+}
+
+#endDateInput {
+    padding: 2px 10px 2px 10px;
+    margin-left: 5px;
+    border-radius: 10px;
+    border-style: double;
+    border-width: 1px;
+    background-color: #064ff000;
+    font-size: 15px;
+    font-family: monospace;
+  }
+
+
+  .editbutton {
+    background-color: darkblue;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    width: 100px;
+    height: 35px;
+    border-radius: 20px;
+}
+
+.editbutton1 {
+    background-color: white;
+    color: black;
+    border: 2px solid rgba(192, 192, 192, 0.356);
+}
+
+.editbutton1:hover {
+    background-color: #374ed0;
+    color: white;
+}

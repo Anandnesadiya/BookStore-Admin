@@ -3,13 +3,17 @@ import React, { useEffect, useState } from 'react';
 import DashboardCSS from "./dashboard.module.css";
 import { Chart as ChartJS } from "chart.js/auto";
 import { Line } from "react-chartjs-2";
+import { useNavigate } from "react-router-dom";
+
 
 function Dashboard() {
 
   const [orderbackendData, setorderBackendData] = useState([]);
   const [bookbackendData, setbookBackendData] = useState(0);
   const [chartbackendData, setchartBackendData] = useState([]);
-
+  const [maxDate, setMaxDate] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   let totalorderprice = 0;
   let totalcountoforder = 0;
@@ -35,15 +39,49 @@ function Dashboard() {
       });
   };
 
-  const getchartdata = () => {
-    axiosInstance.get(`http://localhost:4000/dashboard/chartdata/`)
-      .then(response => {
-        setchartBackendData(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching book data:', error);
-      });
+  // const getchartdata = () => {
+  //   axiosInstance.get(`http://localhost:4000/dashboard/chartdata/`)
+  //     .then(response => {
+  //       setchartBackendData(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching book data:', error);
+  //     });
+  // };
+
+  const onSubmit = () => {
+    if (startDate > endDate) {
+      alert("Start date cannot be after end date.");
+      return;
+    }
+    const bookData = {
+      StartDate: startDate,
+      EndDate: endDate
+    };
+    getchartdata(bookData)
   };
+
+  function getchartdata(bookData) {
+    return new Promise((resolve, reject) => {
+      axiosInstance.post("http://localhost:4000/dashboard/chartdata/", bookData, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+        .then((res) => {
+          if (res.status !== 200) {
+            reject(new Error('Failed to add book'));
+          }
+          setchartBackendData(res.data);
+          resolve(res.data);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          reject(error);
+        });
+    });
+  }
+
 
   useEffect(() => {
     getorderdata();
@@ -51,8 +89,18 @@ function Dashboard() {
     getBookData();
   }, []);
 
+  useEffect(() => {
+    const today = new Date().toISOString().split('T')[0];
+    setMaxDate(today);
+  }, []);
 
+  const handleStartDateChange = (e) => {
+    setStartDate(e.target.value);
+  };
 
+  const handleEndDateChange = (e) => {
+    setEndDate(e.target.value);
+  };
 
   return (
     <>
@@ -63,7 +111,6 @@ function Dashboard() {
           <></>
         );
       })}
-
 
       <div className={DashboardCSS.maindiv}>
         <div className={DashboardCSS.totalorderpricediv}>
@@ -92,13 +139,37 @@ function Dashboard() {
           options={{
             scales: {
               y: {
-                beginAtZero: true ,
+                beginAtZero: true,
               }
             }
           }}
         >
-
         </Line>
+        <div className={DashboardCSS.filterdiv}>
+          <div className={DashboardCSS.dateInput}>
+            <label htmlFor="startDateInput">Start Date : </label>
+            <input
+              type="date"
+              id={DashboardCSS.endDateInput}
+              max={maxDate}
+              value={startDate}
+              onChange={handleStartDateChange}
+            />
+          </div>
+          <div className={DashboardCSS.dateInput}>
+            <label htmlFor="endDateInput">End Date : </label>
+            <input
+              type="date"
+              id={DashboardCSS.endDateInput}
+              max={maxDate}
+              value={endDate}
+              onChange={handleEndDateChange}
+            />
+          </div>
+          <div className={DashboardCSS.dateInput}>
+            <input className={`${DashboardCSS.editbutton} ${DashboardCSS.editbutton1}`} type="submit" onClick={onSubmit} />
+          </div>
+        </div>
       </div>
     </>
   );
